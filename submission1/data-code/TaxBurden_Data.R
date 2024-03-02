@@ -34,7 +34,7 @@ cig.data <- cig.data %>%
          measure)
          
 final.data <- pivot_wider(cig.data, 
-                         id_cols = c("state","Year","measure"),
+                         id_cols = c("state","Year"),
                          names_from = "measure",
                          values_from = "value") %>%
   arrange(state, Year)
@@ -50,6 +50,7 @@ cpi.data <- cpi.data %>%
   group_by(Year) %>%
   summarize(index=mean(index, na.rm=TRUE))
 
+##The mean for 2012 is 230 (change 218 to 230 and then run)
 
 
 # Form final dataset ------------------------------------------------------
