@@ -85,7 +85,7 @@ question3.graph <- ggplot(avg_packs_per_capita, aes(x = Year, y = avg_packs_per_
   labs(title = "Average Packs Sold Per Capita (Top 5 States with Highest Price Increases)",
        x = "Year",
        y = "Average Packs Sold Per Capita",
-       color = "State") +
+       color = "state") +
   theme_minimal()
 
 #Question 4
@@ -111,12 +111,12 @@ avg_packs_per_capita <- bottom_states_data %>%
   summarize(avg_packs_per_capita = mean(sales_per_capita, na.rm = TRUE))
 
 # Plotting
-question4.graph <- ggplot(avg_packs_per_capita, aes(x = Year, y = avg_packs_per_capita, color = factor(State))) +
+question4.graph <- ggplot(avg_packs_per_capita, aes(x = Year, y = avg_packs_per_capita, color = factor(state))) +
   geom_line(size = 1.5) +
   labs(title = "Average Packs Sold Per Capita (Top 5 States with Lowest Price Increases)",
        x = "Year",
        y = "Average Packs Sold Per Capita",
-       color = "State") +
+       color = "state") +
   theme_minimal()
 
 #Question 6 
