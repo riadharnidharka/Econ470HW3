@@ -46,3 +46,44 @@ question1.graph
 
 \vspace{.2in}
 \noindent 2. Plot on a single graph the average tax (in 2012 dollars) on cigarettes and the average price of a pack of cigarettes from 1970 to 2018.
+```{r}
+#| echo: false
+#| label: avg.2012
+#| fig-cap: "Avg tax and Price"
+
+question2.graph
+```
+\newpage
+
+\vspace{.2in}
+\noindent 3. Identify the 5 states with the highest increases in cigarette prices (in dollars) over the time period. Plot the average number of packs sold per capita for those states from 1970 to 2018.
+
+```{r}
+#| echo: false
+#| label: 5highest
+#| fig-cap: "Avg Packs Sold"
+
+question3.graph
+```
+\newpage
+
+\vspace{.2in}
+\noindent 4. Identify the 5 states with the lowest increases in cigarette prices over the time period. Plot the average number of packs sold per capita for those states from 1970 to 2018.
+
+```{r}
+#| echo: false
+#| label: 5lowest
+#| fig-cap: "Avg Packs Sold"
+
+question4.graph
+```
+\newpage
+
+\vspace{.2in}
+\noindent 5. Compare the trends in sales from the 5 states with the highest price increases to those with the lowest price increases.
+
+\newpage
+
+\vspace{.2in}
+\noindent 6. Focusing only on the time period from 1970 to 1990, regress log sales on log prices to estimate the price elasticity of demand over that period. Interpret your results.
+
