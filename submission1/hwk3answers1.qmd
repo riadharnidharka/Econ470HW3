@@ -63,7 +63,7 @@ question2.graph
 #| label: 5highest
 #| fig-cap: "Avg Packs Sold"
 
-question3.graph
+question3_graph
 ```
 \newpage
 
@@ -75,15 +75,65 @@ question3.graph
 #| label: 5lowest
 #| fig-cap: "Avg Packs Sold"
 
-question4.graph
+question4_graph
 ```
 \newpage
 
 \vspace{.2in}
 \noindent 5. Compare the trends in sales from the 5 states with the highest price increases to those with the lowest price increases.
 
+The states with the 5 highest prices's sales steadily fall over time. However, the 5 states with the lowest prices's sales peaks around 1980, and then starts to fall. Therefore, for these states with the lowest prices, the decline in sales occurs later than for the states with the highest prices. 
 \newpage
 
 \vspace{.2in}
 \noindent 6. Focusing only on the time period from 1970 to 1990, regress log sales on log prices to estimate the price elasticity of demand over that period. Interpret your results.
+```{r}
+#| echo: false
+#| label: log sales
+#| fig-cap: "Price Elasticity of Demand"
 
+elasticity_model
+```
+\newpage
+
+\vspace{.2in}
+\noindent 7. Again limiting to 1970 to 1990, regress log sales on log prices using the total (federal and state) cigarette tax (in dollars) as an instrument for log prices. Interpret your results and compare your estimates to those without an instrument. Are they different? If so, why?
+
+```{r}
+#| echo: false
+#| label: instrument
+#| fig-cap: "Price Elasticity of Demand"
+
+coefficients
+```
+\newpage
+
+\vspace{.2in}
+\noindent 8. Show the first stage and reduced-form results from the instrument.
+
+\newpage
+\noindent 9. Repeat questions 1-3 focusing on the period from 1991 to 2015.
+
+Question 6 Repeat:
+```{r}
+#| echo: false
+#| label: repeat 6
+#| fig-cap: "Price Elasticity of Demand"
+
+tidy_summary2
+```
+
+Question 7 Repeat:
+```{r}
+#| echo: false
+#| label: log sales 2
+#| fig-cap: "Price Elasticity of Demand"
+
+coefficients2
+```
+
+Question 8 Repeat:
+
+\newpage
+\vspace{.2in}
+\noindent 10. Compare your elasticity estimates from 1970-1990 versus those from 1991-2015. Are they different? If so, why?
