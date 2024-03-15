@@ -55,12 +55,18 @@ cpi.data <- cpi.data %>%
 
 # Form final dataset ------------------------------------------------------
 # adjust to 2012 dollars
-final.data <- final.data %>%
-  left_join(cpi.data, by="Year") %>%
-  mutate(price_cpi=cost_per_pack*(230/index))
-  #change tax to 2012 dollars too
+ 
+cpi.2012 <- cpi.data %>%
+  filter(Year==2012) %>%
+  select(index) %>% as.numeric()
 
-write_tsv(final.data,"data/output/TaxBurden_Data.txt",append=FALSE,col_names=TRUE)
+  # Form final dataset ------------------------------------------------------
+ 
+# adjust to 2012 dollars
+final.data <- final.data %>%
+  mutate(cpi_2012=cpi.2012) %>%
+  left_join(cpi.data, by="Year")
+ 
 write_rds(final.data,"data/output/TaxBurden_Data.rds")
 
 
