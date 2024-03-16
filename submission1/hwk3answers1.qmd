@@ -87,6 +87,8 @@ The states with the 5 highest prices's sales steadily fall over time. However, t
 
 \vspace{.2in}
 \noindent 6. Focusing only on the time period from 1970 to 1990, regress log sales on log prices to estimate the price elasticity of demand over that period. Interpret your results.
+
+The coefficient of log_prices is negative, so there is an inverse relationship between price and sales. In terms of price elasticity of demand, a 1% increase in cigarette prices means a 0.1715% decrease in cigarette sales. Thus, cigarette demand is relatively inelastic, meaning that a decrease in sales is relatively small compared to an increase in price. 
 ```{r}
 #| echo: false
 #| label: log sales
@@ -98,6 +100,8 @@ elasticity_model
 
 \vspace{.2in}
 \noindent 7. Again limiting to 1970 to 1990, regress log sales on log prices using the total (federal and state) cigarette tax (in dollars) as an instrument for log prices. Interpret your results and compare your estimates to those without an instrument. Are they different? If so, why?
+
+This time, the coefficient of log_prices is -0.284. Given that this coefficient in the IV regression is larger in magnetude than the previous estimate without an instrument, this estimate shows a more elastic demand, or that consumers are more responsive to a change in prices.
 
 ```{r}
 #| echo: false
@@ -111,10 +115,21 @@ coefficients
 \vspace{.2in}
 \noindent 8. Show the first stage and reduced-form results from the instrument.
 
+The first stage results are -0.2843483 for log prices. The reduced form results are  4.7101093 for the intercept and -0.2843483 for the log_prices.
+```{r}
+#| echo: false
+#| label: results
+#| fig-cap: "Results"
+
+first_stage_results
+reduced_form_results
+```
+
 \newpage
 \noindent 9. Repeat questions 1-3 focusing on the period from 1991 to 2015.
 
 Question 6 Repeat:
+The estimate is -0.172, which is approximately the same as the estimate for 1970-1990. 
 ```{r}
 #| echo: false
 #| label: repeat 6
@@ -124,6 +139,7 @@ tidy_summary2
 ```
 
 Question 7 Repeat:
+The estimate using an instrument is approx. -0.763, which has a larger magnitude than the estimate for 1970-1990. This indicates that the demand for cigarettes has become more elastic over time. Comparing to the estimate for 1991-2015 without an instrument, this estimate provides a more elastic estimate of demand. 
 ```{r}
 #| echo: false
 #| label: log sales 2
@@ -133,7 +149,18 @@ coefficients2
 ```
 
 Question 8 Repeat:
+The first stage results are -0.7626495 for log prices. The reduced form results are 5.1575124 for the intercept and -0.7626495 for log prices.
+```{r}
+#| echo: false
+#| label: results 2
+#| fig-cap: "Results"
 
+first_stage_results2
+reduced_form_results2
+```
 \newpage
+
 \vspace{.2in}
 \noindent 10. Compare your elasticity estimates from 1970-1990 versus those from 1991-2015. Are they different? If so, why?
+
+Without an instrument they are very similar, but with an instrument the estimates are very different. For the later period of 1991-2015, the estimate is much more elastic, meaning over time, people are more sensitive to changes in price. This could be because of greater awareness of the dangers of cigarretes which may lead to people being less willing to pay any price for cigarrettes. 
