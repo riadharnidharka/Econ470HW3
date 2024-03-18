@@ -40,7 +40,7 @@ load("Hw3_workspace.Rdata")
 #| label: change.tax
 #| fig-cap: "States with a Change in Cigarette Tax (1970-1985)"
 
-question1.graph
+question1_graph
 ```
 \newpage
 

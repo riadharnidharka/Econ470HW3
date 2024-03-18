@@ -1,4 +1,3 @@
-#Question 1 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, stringr, readxl, data.table, gdata)
 
@@ -16,27 +15,31 @@ tax_data <- tax_data %>% group_by(state) %>% arrange(state, Year) %>%
          ln_sales=log(sales_per_capita),
          ln_price_2012=log(price_cpi_2012))
 
+
+#Question 1
 # Filter data for years 1970 to 1985
 tax_data_filtered <- tax_data %>%
   filter(Year >= 1970 & Year <= 1985)
 
-# Determine which states had a change in cigarette tax each year
-tax_changes <- tax_data_filtered %>%
+# Create the tax_change column
+tax_data_filtered <- tax_data_filtered %>%
+  arrange(state, Year) %>%
+  group_by(state) %>%
+  mutate(tax_change = ifelse(tax_state - lag(tax_state) > 0, 1, 0))
+
+# Calculate the proportion of states with a change in their cigarette tax for each year
+proportions <- tax_data_filtered %>%
   group_by(Year) %>%
-    summarize(Change = n_distinct(state[tax_state != lag(tax_state)]))
+  summarise(Proportion = mean(tax_change, na.rm = TRUE), .groups = 'drop')
 
-# Calculate the proportion of states with a tax change in each year
-tax_changes <- tax_changes %>%
-  mutate(Proportion = Change / n_distinct(tax_data_filtered$state))
-
-# Create bar graph
-question1.graph <- ggplot(tax_changes, aes(x = as.factor(Year), y = Proportion)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
-  labs(title = "States with a Change in Cigarette Tax (1970-1985)",
-       x = "Year",
-       y = "Proportion") +
+# Create a bar graph of the proportions
+question1_graph <- ggplot(proportions, aes(x = Year, y = Proportion)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Proportion of States with a Change in Cigarette Tax (1970-1985)",
+       x = "Year", y = "Proportion") +
   theme_minimal()
-question1.graph
+
+question1_graph
 
 #Question 2
 library(ggplot2)
