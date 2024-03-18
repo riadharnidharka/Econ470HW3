@@ -37,6 +37,7 @@ question1.graph <- ggplot(tax_changes, aes(x = as.factor(Year), y = Proportion))
        y = "Proportion") +
   theme_minimal()
 question1.graph
+
 #Question 2
 library(ggplot2)
 
@@ -102,7 +103,6 @@ question3_graph
 library(dplyr)
 library(ggplot2)
 
-
 # Calculate the price increase for each state
 price_increase <- tax_data %>%
   group_by(state) %>%
@@ -149,6 +149,7 @@ elasticity_model <- lm(log_sales ~ log_prices, data = data_subset)
 summary(elasticity_model)
 
 #Question 7 
+
 # Install and load the AER package if not already installed
 install.packages("AER")
 library(AER)
@@ -162,11 +163,11 @@ data_subset <- tax_data %>%
 
 # Log-transform sales, prices, and tax_dollar
 data_subset$log_sales <- log(data_subset$sales_per_capita)
-data_subset$log_prices <- log(data_subset$cost_per_pack)
-data_subset$ln_tax_2012 <- log(data_subset$tax_dollar)
+data_subset$log_prices <- log(data_subset$price_cpi_2012)
+data_subset$ln_tax_2012 <- log(data_subset$total_tax_cpi_2012)
 
 # Perform instrumental variable regression
-iv_model <- feols(log(sales_per_capita) ~ 1 | log(price_cpi_2012) ~ log(tax_dollar), 
+iv_model <- feols(log(sales_per_capita) ~ 1 | log(price_cpi_2012) ~ log(total_tax_cpi_2012), 
              data=data_subset)
 
 
@@ -187,7 +188,7 @@ data_subset <- tax_data %>%
 
 # Log-transform sales, prices, and tax_dollar
 data_subset$log_sales <- log(data_subset$sales_per_capita)
-data_subset$log_prices <- log(data_subset$cost_per_pack)
+data_subset$log_prices <- log(data_subset$price_cpi_2012)
 data_subset$ln_tax_2012 <- log(data_subset$tax_dollar)
 
 # Perform instrumental variable regression
@@ -231,7 +232,7 @@ tidy_summary2 <- tidy(summary(elasticity_model))
 # Display the tidy summary as a table
 print(tidy_summary2)
 
-##Repeat Quesion 7
+##Repeat Question 7
 # Filter data for the time period from 1991 to 2015
 data_subset_2 <- tax_data %>%
   filter(Year >= 1991 & Year <= 2015)
@@ -278,6 +279,29 @@ print(first_stage_results2)
 
 print(reduced_form_results2)
 #intercept is   5.1575124 and log_prices is -0.7626495 
+
+#Make a table of all results
+results1 <- data.frame(
+  Period = "1970-1990",
+  Price_Elasticity = elasticity_model,
+  IV_Elasticity = iv_model,
+  First_Stage_R2 = first_stage_results,
+  Reduced_Form_R2 = reduced_form_results
+)
+
+results2 <- data.frame(
+  Period = "1991-2015",
+  Price_Elasticity = elasticity_model_2,
+  IV_Elasticity = iv_model_2,
+  First_Stage_R2 = first_stage_results2,
+  Reduced_Form_R2 = reduced_form_results2
+)
+
+# Combine the results into a single dataframe
+all_results <- rbind(results1, results2)
+
+# Print the results table
+print(all_results)
 
 rm(list=c("tax_data", "data_subset", "merged_data","tax_data_filtered", "data_subset_2"))
 save.image("submission1/Hw3_workspace.Rdata")
