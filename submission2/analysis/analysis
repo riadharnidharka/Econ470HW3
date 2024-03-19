@@ -35,7 +35,7 @@ proportions <- tax_data_filtered %>%
 # Create a bar graph of the proportions
 question1_graph <- ggplot(proportions, aes(x = Year, y = Proportion)) +
   geom_bar(stat = "identity") +
-  labs(title = "Proportion of States with a Change in Cigarette Tax (1970-1985)",
+  labs(title = "Proportion of States with a Change in Cigarette Tax",
        x = "Year", y = "Proportion") +
   theme_minimal()
 
@@ -91,7 +91,7 @@ avg_packs_per_capita <- top_states_data %>%
 # Plotting and storing as an object
 question3_graph <- ggplot(avg_packs_per_capita, aes(x = Year, y = avg_packs_per_capita)) +
   geom_line(size = 1.5) +
-  labs(title = "Avg. Packs Sold Per Capita (Top 5 States with Highest Price Increases)",
+  labs(title = "Avg. Packs Sold Per Capita (Top 5 States)",
        x = "Year",
        y = "Average Packs Sold Per Capita",
        color = "State") +
@@ -122,7 +122,7 @@ avg_packs_per_capita <- bottom_states_data %>%
 # Plotting and storing as an object
 question4_graph <- ggplot(avg_packs_per_capita, aes(x = Year, y = avg_packs_per_capita)) +
   geom_line(size = 1.5) +
-  labs(title = "Avg. Packs Sold Per Capita (Top 5 States with Lowest Price Increases)",
+  labs(title = "Avg. Packs Sold Per Capita (Bottom 5 States)",
        x = "Year",
        y = "Average Packs Sold Per Capita",
        color = "State") +
