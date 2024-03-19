@@ -236,71 +236,91 @@ print(regression_summary8)
 data_subset_2 <- tax_data %>%
   filter(Year >= 1991 & Year <= 2015)
 
-data_subset_2 <- na.omit(data_subset)
+data_subset_2 <- na.omit(data_subset_2)
 
-# Log-transform sales_per_capita and cost_per_pack
-data_subset_2$log_sales <- log(data_subset_2$sales_per_capita)
-data_subset_2$log_prices <- log(data_subset_2$cost_per_pack)
+model_1_2 <- lm(ln_sales ~ ln_price_2012, data=data_subset_2)
+summary(model_1_2)
 
-# Perform log-log regression
-elasticity_model_2 <- lm(log_sales ~ log_prices, data = data_subset_2)
+# Tidy the regression summary for model_1
+tidy_model_1_2 <- broom::tidy(model_1_2)
 
-# Display regression summary
-summary(elasticity_model_2)
+# Store the coefficients and their standard errors for model_1
+coefficients_model_1_2 <- tidy_model_1_2$estimate
+std_errors_model_1_2 <- tidy_model_1_2$std.error
+beta_labels2 <- c("Intercept", "Price Elasticity")
 
-# Convert the summary of the model into a tidy data frame
-tidy_summary2 <- tidy(summary(elasticity_model))
+# Combine coefficients and standard errors into a data frame for model_1
+regression_table_2 <- data.frame(Label = beta_labels2, Coefficient = coefficients_model_1_2, `Standard Error` = std_errors_model_1_2)
 
-# Display the tidy summary as a table
-print(tidy_summary2)
+# Print the regression table for model_1
+print(regression_table_2)
+
 
 ##Repeat Question 7
 # Filter data for the time period from 1991 to 2015
 data_subset_2 <- tax_data %>%
   filter(Year >= 1991 & Year <= 2015)
 
-# Log-transform sales, prices, and tax_dollar
-data_subset_2$log_sales <-  log(data_subset_2$sales_per_capita)
-data_subset_2$log_prices <- log(data_subset_2$cost_per_pack)
-data_subset_2$ln_tax_2012 <- log(data_subset_2$tax_dollar)
+data_subset_2 <- na.omit(data_subset_2)
 
+library(fixest)
 
-# Perform instrumental variable regression
-iv_model_2 <- ivreg(log_sales ~ log_prices | ln_tax_2012, data = data_subset_2)
+# Estimate the IV model
+iv_model_2 <- feols(ln_sales ~ 1 | ln_price_2012 ~ ln_tax_2012, data = data_subset_2)
 
-# Display instrumental variable regression summary
 summary(iv_model_2)
 
-# Make into a table
-# Extract coefficient estimates from the model summary
-coefficients2 <- coef(summary(iv_model_2))
+# Tidy the regression summary for model2
+tidy_model_iv2 <- broom::tidy(iv_model_2)
 
-# Display coefficient estimates in a table format
-print(coefficients2)
+# Store the coefficients and their standard errors for model2
+coefficients_model_iv2 <- tidy_model_iv2$estimate
+std_errors_model_iv2 <- tidy_model_iv2$std.error
+beta_labels_iv2 <- c("Intercept", "Price Elasticity")
+
+# Combine coefficients and standard errors into a data frame for model2
+iv_results_2 <- data.frame(Label = beta_labels_iv2, Coefficient = coefficients_model_iv2, `Standard Error` = std_errors_model_iv2)
+
+# Print the regression table for model2
+print(iv_results_2) 
+
 
 ##Repeat Question 8
+# Load necessary libraries
+library(AER)
+library(fixest)
+
 # Filter data for the time period from 1991 to 2015
 data_subset_2 <- tax_data %>%
   filter(Year >= 1991 & Year <= 2015)
 
-# Log-transform sales, prices, and tax_dollar
-data_subset_2$log_sales <-  log(data_subset_2$sales_per_capita)
-data_subset_2$log_prices <- log(data_subset_2$cost_per_pack)
-data_subset_2$ln_tax_2012 <- log(data_subset_2$tax_dollar)
+# First Stage Regression
+first_stage2 <- feols(ln_price_2012 ~ ln_tax_2012, data = data_subset)
+first_stage_summary2 <- tidy(first_stage2)
 
-# Perform instrumental variable regression
-iv_model_2 <- ivreg(log_sales ~ log_prices | ln_tax_2012, data = data_subset_2)
+# Reduced Form Regression
+reduced_form2 <- feols(ln_sales ~ ln_tax_2012, data = data_subset_2)
+reduced_form_summary2 <- tidy(reduced_form2)
 
-# Extract first stage and reduced-form results
-first_stage_results2 <- coef(iv_model_2)[c("log_prices", "log_tax_dollar")]
-reduced_form_results2 <- coef(iv_model_2)[c("(Intercept)", "log_prices")]
+# Combine the summaries into a single data frame
+regression_summary2 <- rbind(
+  c("First Stage", NA, NA),
+  c("Intercept", first_stage_summary2$estimate[1], first_stage_summary2$std.error[1]),
+  c("ln_tax_2012", first_stage_summary2$estimate[2], first_stage_summary2$std.error[2]),
+  c("Reduced Form", NA, NA),
+  c("Intercept", reduced_form_summary2$estimate[1], reduced_form_summary2$std.error[1]),
+  c("ln_tax_2012", reduced_form_summary2$estimate[2], reduced_form_summary2$std.error[2])
+)
 
-# Display results
-print(first_stage_results2)
-#log_prices is -0.7626495  
+# Convert to data frame
+regression_summary8_2 <- as.data.frame(regression_summary2)
 
-print(reduced_form_results2)
-#intercept is   5.1575124 and log_prices is -0.7626495 
+# Rename columns
+names(regression_summary8_2) <- c("Regression", "Coefficient", "Standard Error")
+
+# Print the regression summary
+print(regression_summary8_2)
+
 
 #Make a table of all results
 results1 <- data.frame(
@@ -325,5 +345,5 @@ all_results <- rbind(results1, results2)
 # Print the results table
 print(all_results)
 
-rm(list=c("tax_data", "data_subset", "merged_data","tax_data_filtered", "data_subset_2"))
-save.image("submission1/Hw3_workspace.Rdata")
+rm(list=c("tax_data", "data_subset", "data_subset_2", "merged_data","tax_data_filtered", "data_subset_2", "top_states", "top_states_data"))
+save.image("submission2/Hw3_workspace.Rdata")
