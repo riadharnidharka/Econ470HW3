@@ -1,0 +1,200 @@
+---
+title: "Homework 3"
+subtitle: "Research in Health Economics, Spring 2024 https://github.com/riadharnidharka/Econ470HW3"
+author: "Ria Dharnidharka"
+format:
+  pdf:
+    output-file: "dharnidharka-r-hwk3-2"
+    output-ext:  "pdf"
+    header-includes:
+      - \usepackage{float}
+      - \floatplacement{table}{H}
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r}
+#| include: false
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readr, readxl, hrbrthemes, fixest,
+               scales, gganimate, gapminder, gifski, png, tufte, plotly, OECD,
+               ggrepel, survey, foreign, devtools, pdftools, kableExtra, modelsummary,
+               kableExtra)
+```
+```{r}
+#| include: false
+#| eval: true
+
+ 
+load("Hw3_workspace.Rdata")
+```
+\newpage
+
+\vspace{.2in}
+\noindent 1. Present a bar graph showing the proportion of states with a change in their cigarette tax in each year from 1970 to 1985.
+
+```{r}
+#| echo: false
+#| label: change.tax
+#| fig-cap: "States with a Change in Cigarette Tax (1970-1985)"
+
+question1_graph
+```
+\newpage
+
+\vspace{.2in}
+\noindent 2. Plot on a single graph the average tax (in 2012 dollars) on cigarettes and the average price of a pack of cigarettes from 1970 to 2018.
+```{r}
+#| echo: false
+#| label: avg.2012
+#| fig-cap: "Avg tax and Price"
+
+question2.graph
+```
+\newpage
+
+\vspace{.2in}
+\noindent 3. Identify the 5 states with the highest increases in cigarette prices (in dollars) over the time period. Plot the average number of packs sold per capita for those states from 1970 to 2018.
+
+```{r}
+#| echo: false
+#| label: 5highest
+#| fig-cap: "Avg Packs Sold"
+
+question3_graph
+```
+\newpage
+
+\vspace{.2in}
+\noindent 4. Identify the 5 states with the lowest increases in cigarette prices over the time period. Plot the average number of packs sold per capita for those states from 1970 to 2018.
+
+```{r}
+#| echo: false
+#| label: 5lowest
+#| fig-cap: "Avg Packs Sold"
+
+question4_graph
+```
+\newpage
+
+\vspace{.2in}
+\noindent 5. Compare the trends in sales from the 5 states with the highest price increases to those with the lowest price increases.
+
+The states with the 5 highest prices's sales steadily fall over time. However, the 5 states with the lowest prices's sales peaks around 1980, and then starts to fall. Therefore, for these states with the lowest prices, the decline in sales occurs later than for the states with the highest prices. This could be because of a delayed response of consumers to the health warnings on cigarettes, coupled with lower price sensitivity due to the relatively low prices in those states. 
+\newpage
+
+\vspace{.2in}
+\noindent 6. Focusing only on the time period from 1970 to 1990, regress log sales on log prices to estimate the price elasticity of demand over that period. Interpret your results.
+
+```{r} 
+#| echo: false
+#| label: logs
+#| tbl-cap: "Log Regression"
+
+library(kableExtra)
+options(knitr.kable.NA = 0)
+knitr::kable(regression_table, 
+             col.names=c("Betas", "Coefficients","Standard Errors"),
+             format.args=list(big.mark=","), booktabs = TRUE) %>%
+             kable_styling(latex_options=c("scale_down"))
+
+```
+
+The coefficient of log_prices is -0.809, which is negative, so there is an inverse relationship between price and sales. In terms of price elasticity of demand, a 1% increase in cigarette prices means a 0.809% decrease in cigarette sales. Thus, cigarette demand is relatively elastic, meaning that a decrease in sales is relatively large compared to an increase in price. The intercept of 5.53 
+
+\newpage
+\vspace{.2in}
+\noindent 7. Again limiting to 1970 to 1990, regress log sales on log prices using the total (federal and state) cigarette tax (in dollars) as an instrument for log prices. Interpret your results and compare your estimates to those without an instrument. Are they different? If so, why?
+
+```{r} 
+#| echo: false
+#| label: IV
+#| tbl-cap: "IV Model for Question 7"
+
+library(kableExtra)
+options(knitr.kable.NA = 0)
+knitr::kable(iv_results, 
+             col.names = c("Betas", "Coefficient", "Standard Error"),
+             align = "c",
+             caption = "Instrumental Variable Regression Results")
+```
+This time, the coefficient of log_prices is -0.796. Given that this coefficient in the IV regression is smaller in magnetude than the previous estimate without an instrument, this estimate shows a slightly more inelastic demand, or that consumers are slightly less responsive to a change in prices. This could be because using an instrument addresses endogeneity and can provide a result that accounts for that. 
+
+\newpage
+\vspace{.2in}
+\noindent 8. Show the first stage and reduced-form results from the instrument.
+
+```{r} 
+#| echo: false
+#| label: firstandreduced
+#| tbl-cap: "First and Second Stages for Question 8"
+
+library(kableExtra)
+options(knitr.kable.NA = 0)
+knitr::kable(regression_summary8, 
+             col.names = c("Regression", "Coefficient", "Standard Error"),
+             align = "c",
+             caption = "First and Second Stage Regression Results")
+
+```
+
+
+\newpage
+\noindent 9. Repeat questions 1-3 focusing on the period from 1991 to 2015.
+
+Question 6 Repeat:
+
+```{r} 
+#| echo: false
+#| label: logs2
+#| tbl-cap: "Log Regression 2"
+
+library(kableExtra)
+options(knitr.kable.NA = 0)
+knitr::kable(regression_table_2, 
+             col.names=c("Betas", "Coefficients","Standard Errors"),
+             format.args=list(big.mark=","), booktabs = TRUE) %>%
+             kable_styling(latex_options=c("scale_down"))
+
+```
+
+The estimate is -0.997, which is higher in magnitude than the estimate for 1970-1990. 
+
+Question 7 Repeat:
+
+```{r} 
+#| echo: false
+#| label: IV2
+#| tbl-cap: "IV Model for Question 7"
+
+library(kableExtra)
+options(knitr.kable.NA = 0)
+knitr::kable(iv_results_2, 
+             col.names = c("Betas", "Coefficient", "Standard Error"),
+             align = "c",
+             caption = "Instrumental Variable Regression Results")
+``` 
+
+
+Question 8 Repeat:
+```{r} 
+#| echo: false
+#| label: firstandreduced2
+#| tbl-cap: "First and Second Stages for Question 8 repeated"
+
+library(kableExtra)
+options(knitr.kable.NA = 0)
+knitr::kable(regression_summary8_2, 
+             col.names = c("Regression", "Coefficient", "Standard Error"),
+             align = "c",
+             caption = "First and Second Stage Regression Results")
+
+```
+
+\newpage
+\vspace{.2in}
+\noindent 10. Compare your elasticity estimates from 1970-1990 versus those from 1991-2015. Are they different? If so, why?
+
+Without an instrument, the estimate for 1991-2015 is slightly higher in magnitude than the estimate for 1970-1990, meaning price is slightly more elastic in the later period. With an instrument, the estimates have an even larger difference in magnitude, again with a more elastic estimate in the later period. This means that over time, people are more sensitive to changes in price. This could be because of greater awareness of the dangers of cigarretes which may lead to people being less willing to pay any price for cigarrettes. 
