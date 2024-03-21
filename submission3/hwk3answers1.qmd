@@ -4,7 +4,7 @@ subtitle: "Research in Health Economics, Spring 2024 https://github.com/riadharn
 author: "Ria Dharnidharka"
 format:
   pdf:
-    output-file: "dharnidharka-r-hwk3-2"
+    output-file: "dharnidharka-r-hwk3-3"
     output-ext:  "pdf"
     header-includes:
       - \usepackage{float}
@@ -102,7 +102,7 @@ knitr::kable(regression_table,
 
 ```
 
-The coefficient of log_prices is -0.809, which is negative, so there is an inverse relationship between price and sales. In terms of price elasticity of demand, a 1% increase in cigarette prices means a 0.809% decrease in cigarette sales. Thus, cigarette demand is relatively elastic, meaning that a decrease in sales is relatively large compared to an increase in price. The intercept of 5.53 
+The coefficient of log_prices is -0.809, which is negative, so there is an inverse relationship between price and sales. In terms of price elasticity of demand, a 1% increase in cigarette prices means a 0.809% decrease in cigarette sales. Thus, cigarette demand is relatively elastic, meaning that a decrease in sales is relatively large compared to an increase in price. 
 
 \newpage
 \vspace{.2in}
@@ -160,7 +160,7 @@ knitr::kable(regression_table_2,
 
 ```
 
-The estimate is -0.997, which is higher in magnitude than the estimate for 1970-1990. 
+The estimate is -0.997, which is higher in magnitude than the estimate for 1970-1990. It is  also negative, so there is an inverse relationship between price and sales. In terms of price elasticity of demand, a 1% increase in cigarette prices means a 0.997% decrease in cigarette sales. Thus, cigarette demand is relatively elastic, meaning that a decrease in sales is relatively large compared to an increase in price. 
 
 Question 7 Repeat:
 
@@ -177,6 +177,7 @@ knitr::kable(iv_results_2,
              caption = "Instrumental Variable Regression Results")
 ``` 
 
+This time, the coefficient of log_prices is -1.15. This means that sales decrease by -1.15% when prices increases by 1%. Given that this coefficient in the IV regression is larger in magnetude than the previous estimate without an instrument, this estimate shows an elastic demand, or that consumers are very responsive to a change in prices. 
 
 Question 8 Repeat:
 ```{r} 
@@ -196,5 +197,7 @@ knitr::kable(regression_summary8_2,
 \newpage
 \vspace{.2in}
 \noindent 10. Compare your elasticity estimates from 1970-1990 versus those from 1991-2015. Are they different? If so, why?
+
+In terms of the coefficients for log prices, they are stronly negative for both time periods, more so in the later period. This means that over time, the good became more elastic. 
 
 Without an instrument, the estimate for 1991-2015 is slightly higher in magnitude than the estimate for 1970-1990, meaning price is slightly more elastic in the later period. With an instrument, the estimates have an even larger difference in magnitude, again with a more elastic estimate in the later period. This means that over time, people are more sensitive to changes in price. This could be because of greater awareness of the dangers of cigarretes which may lead to people being less willing to pay any price for cigarrettes. 
